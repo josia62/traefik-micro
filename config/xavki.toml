@@ -1,0 +1,28 @@
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+
+[http]
+  [http.routers]
+    [http.routers.payment_router]
+      entryPoints = ["xavki"]
+      service = "payment_service"
+      rule = "PathPrefix(`/api/payment`)"
+
+    [http.routers.user_router]
+      entryPoints = ["xavki"]
+      service = "user_service"
+      rule = "PathPrefix(`/api/user`)"
+
+  [http.services]
+    [http.services.payment_service]
+      [http.services.payment_service.loadBalancer]
+        [[http.services.payment_service.loadBalancer.servers]]
+          url = "http://127.0.0.1:4001"
+
+    [http.services.user_service]
+      [http.services.user_service.loadBalancer]
+        [[http.services.user_service.loadBalancer.servers]]
+          url = "http://127.0.0.1:4000"
+
+
+

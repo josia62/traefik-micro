@@ -3,7 +3,7 @@ import { paymentController } from "../controller/payment.controller";
 
 const paymentRoutes = () => {
   const router = Router();
-  router.post("/payment", paymentController.makePaymentREST);
+  router.post("/", paymentController.makePaymentREST);
   return router;
 };
 

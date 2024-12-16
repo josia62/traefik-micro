@@ -4,7 +4,7 @@ import { paymentRouter } from "./payment.route";
 
 const appRoutes = () => {
   const router = Router();
-  router.use("/user", paymentRouter);
+  router.use("/payment", paymentRouter);
   return router;
 };
 
