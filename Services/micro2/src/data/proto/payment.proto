@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package PaymentProto;
+
+import "google/protobuf/empty.proto";
+
+service PaymentService {
+    rpc makePayment (PaymentRequestDTO) returns (PaymentResponseDTO) {}
+    rpc getAllPayments (google.protobuf.Empty) returns (AllPaymentsResponseDTO) {}
+}
+  
+message PaymentRequestDTO {
+    string userId = 1;
+    int32 deposit = 2;
+}
+
+message PaymentStructureDTO {
+    string userId = 1;
+    int32 amount = 2;
+}
+
+message AllPaymentsResponseDTO {
+    repeated PaymentStructureDTO payments = 1;
+}
+  
+message PaymentResponseDTO {
+    string email = 1;
+    string password = 2;
+    string firstName = 3;
+    string lastName = 4;
+    int32 age = 5;
+    int32 amount = 6;
+}
