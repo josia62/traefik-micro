@@ -9,7 +9,7 @@
 
 [entryPoints]
   [entryPoints.xavki]
-    address=":80"
+    address=":3000"
 
 [providers.file]
   directory = "/home/livai/Projects/Node/Microservice/config/"
