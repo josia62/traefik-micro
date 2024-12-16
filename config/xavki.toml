@@ -18,6 +18,8 @@
       [http.services.payment_service.loadBalancer]
         [[http.services.payment_service.loadBalancer.servers]]
           url = "http://127.0.0.1:4001"
+        [[http.services.payment_service.loadBalancer.servers]]
+          url = "http://127.0.0.1:4002"
 
     [http.services.user_service]
       [http.services.user_service.loadBalancer]

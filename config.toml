@@ -1,15 +1,16 @@
 [accesslog]
+
 [api]
-  insecure=true
-  dashboard=true
-  debug=true
+  insecure = true
+  dashboard = true
+  debug = true
 
 [log]
-  level="INFO"
+  level = "INFO"
 
 [entryPoints]
   [entryPoints.xavki]
-    address=":3000"
+    address = ":3000"
 
 [providers.file]
   directory = "/home/livai/Projects/Node/Microservice/config/"
@@ -17,5 +18,17 @@
 
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"
+
+# Enable metrics collection
+[metrics]
+  [metrics.prometheus]
+    addEntryPointsLabels = true
+    addServicesLabels = true
+    entryPoint = "metrics" # Optional entry point for Prometheus scraping
+
+# Optional: Add a dedicated entry point for metrics scraping (if needed)
+[entryPoints.metrics]
+  address = ":8082"
+
 
 

@@ -36,6 +36,7 @@ class PaymentController extends GenericController<Payment, PaymentRequestDTO, Pa
     const { body: data } = req;
     const deposit = data.deposit || 0;
     const userId = data.userId || "";
+    console.log("from payment 1")
     try {
       const response = await this.serviceSA.findOne({ userId: data.userId });
       const newAmount = response?.amount ? response.amount + deposit : deposit;
