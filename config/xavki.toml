@@ -1,19 +1,26 @@
-[providers.docker]
-  endpoint = "unix:///var/run/docker.sock"
-
 [http]
   [http.routers]
+    # Router for API payment
     [http.routers.payment_router]
       entryPoints = ["xavki"]
       service = "payment_service"
       rule = "PathPrefix(`/api/payment`)"
 
+    # Router for API user
     [http.routers.user_router]
       entryPoints = ["xavki"]
       service = "user_service"
       rule = "PathPrefix(`/api/user`)"
 
+    # Router for the www.aro.mg domain
+    [http.routers.aro_router]
+      entryPoints = ["websecure"]
+      service = "aro_service"
+      rule = "Host(`www.aro.mg`)"
+      tls = true
+
   [http.services]
+    # Payment service
     [http.services.payment_service]
       [http.services.payment_service.loadBalancer]
         [[http.services.payment_service.loadBalancer.servers]]
@@ -21,10 +28,18 @@
         [[http.services.payment_service.loadBalancer.servers]]
           url = "http://127.0.0.1:4002"
 
+    # User service
     [http.services.user_service]
       [http.services.user_service.loadBalancer]
         [[http.services.user_service.loadBalancer.servers]]
           url = "http://127.0.0.1:4000"
+
+    # Service for www.aro.mg
+    [http.services.aro_service]
+      [http.services.aro_service.loadBalancer]
+        [[http.services.aro_service.loadBalancer.servers]]
+          url = "http://127.0.0.1:3000"
+
 
 
 

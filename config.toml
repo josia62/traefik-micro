@@ -12,9 +12,18 @@
   [entryPoints.xavki]
     address = ":3000"
 
+  [entryPoints.websecure]
+    address = ":443"
+    [entryPoints.websecure.http.tls]
+
 [providers.file]
   directory = "/home/livai/Projects/Node/Microservice/config/"
   watch = true
+
+[tls]
+  [[tls.certificates]]
+    certFile = "/home/livai/Projects/Node/Microservice/certificates/aro.mg.crt"
+    keyFile = "/home/livai/Projects/Node/Microservice/certificates/aro.mg.key"
 
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"
@@ -29,6 +38,7 @@
 # Optional: Add a dedicated entry point for metrics scraping (if needed)
 [entryPoints.metrics]
   address = ":8082"
+
 
 
 
