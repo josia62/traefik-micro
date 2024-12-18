@@ -27,6 +27,10 @@
           url = "http://127.0.0.1:4001"
         [[http.services.payment_service.loadBalancer.servers]]
           url = "http://127.0.0.1:4002"
+        [http.services.payment_service.loadBalancer.healthCheck]
+        path = "/api/payment"            
+        interval = "5s"
+        timeout = "3s"
 
     # User service
     [http.services.user_service]
