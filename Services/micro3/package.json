@@ -8,16 +8,16 @@
   "main": "index.ts",
   "private": true,
   "scripts": {
-    "dev": "tsx watch --clear-screen=false src/index.ts | pino-pretty",
-    "build": "tsup",
-    "start": "node dist/index.js",
-    "clean": "rimraf dist coverage",
-    "lint": "biome check src/",
-    "lint:fix": "biome check src/ --fix",
-    "proto": "npx proto-loader-gen-types --grpcLib=@grpc/grpc-js --outDir=src/data/proto/ src/data/proto/*.proto",
-    "format": "biome format src/",
-    "test": "vitest run",
-    "prepare": "husky"
+  "dev": "tsx watch --clear-screen=false src/index.ts | pino-pretty",
+  "build": "tsup --external \"**/*.proto\"",
+  "start": "node dist/index.js",
+  "clean": "rimraf dist coverage",
+  "lint": "biome check src/",
+  "lint:fix": "biome check src/ --fix",
+  "proto": "npx proto-loader-gen-types --grpcLib=@grpc/grpc-js --outDir=src/data/proto/ src/data/proto/*.proto",
+  "format": "biome format src/",
+  "test": "vitest run",
+  "prepare": "husky"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.12.2",

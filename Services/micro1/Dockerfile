@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm ci
+RUN npm install
 
 # Bundle app source
 COPY . .
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # Expose port 8080
-EXPOSE 8080
+EXPOSE 4000 8000
 
 # Start the app
 CMD npm run start
