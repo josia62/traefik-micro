@@ -16,9 +16,10 @@
     # Define the service for micro1
     [http.services.micro1.loadBalancer]
       [[http.services.micro1.loadBalancer.servers]]
-        url = "http://micro1:4000"
+        url = "http://micro1:4000"  # Traefik will discover this service internally
 
     # Define the service for micro2
     [http.services.micro2.loadBalancer]
       [[http.services.micro2.loadBalancer.servers]]
-        url = "http://micro2:4001"
+        url = "http://micro2:4001"  # Traefik will discover this service internally
+
