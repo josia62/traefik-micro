@@ -9,7 +9,7 @@ const bootstrapAsync = async () => {
   const { GRPC_PORT } = configs;
   try {
     await App.init();
-    serverGrpc.bindAsync(`localhost:${GRPC_PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
+    serverGrpc.bindAsync(`0.0.0.0:${GRPC_PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
       if (err) {
         logger.error(err);
         return;

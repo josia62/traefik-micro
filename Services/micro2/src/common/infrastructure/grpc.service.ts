@@ -26,4 +26,4 @@ export const serviceGRPC = {
   userService: userProto.UserProto.UserService.service,
 };
 
-export const userClient = new userProto.UserProto.UserService("micro1:4000", grpc.credentials.createInsecure());
+export const userClient = new userProto.UserProto.UserService("micro1:8000", grpc.credentials.createInsecure());
