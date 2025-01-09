@@ -1,0 +1,24 @@
+[http]
+  [http.routers]
+    # Router for /api/user
+    [http.routers.api_user]
+      rule = "PathPrefix(`/api/user`)"
+      service = "micro1"
+      entryPoints = ["web"]
+
+    # Router for /api/payment
+    [http.routers.api_payment]
+      rule = "PathPrefix(`/api/payment`)"
+      service = "micro2"
+      entryPoints = ["web"]
+
+  [http.services]
+    # Define the service for micro1
+    [http.services.micro1.loadBalancer]
+      [[http.services.micro1.loadBalancer.servers]]
+        url = "http://micro1:4000"
+
+    # Define the service for micro2
+    [http.services.micro2.loadBalancer]
+      [[http.services.micro2.loadBalancer.servers]]
+        url = "http://micro2:4001"

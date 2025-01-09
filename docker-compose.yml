@@ -7,13 +7,15 @@ services:
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/etc/traefik"
+      - "--providers.file.watch=true"
       - "--entryPoints.web.address=:80"
     ports:
       - "80:80"
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./config.toml:/etc/traefik/config.toml:ro" # Mount your configuration file
 
   micro1:
     image: micro1
@@ -22,7 +24,7 @@ services:
       - postgres
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.micro1.rule=Host(`micro1.localhost`)"
+      - "traefik.http.routers.micro1.rule=PathPrefix(`/api/user`)" # Added for path-based routing
       - "traefik.http.routers.micro1.entrypoints=web"
     restart: always
 
@@ -33,7 +35,7 @@ services:
       - postgres
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.micro2.rule=Host(`micro2.localhost`)"
+      - "traefik.http.routers.micro2.rule=PathPrefix(`/api/payment`)" # Added for path-based routing
       - "traefik.http.routers.micro2.entrypoints=web"
     restart: always
 
@@ -52,5 +54,3 @@ services:
 
 volumes:
   postgres_data:
-
-
