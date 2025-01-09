@@ -16,6 +16,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./config.toml:/etc/traefik/config.toml:ro"
+    networks:
+      - traefik
 
   micro1:
     image: micro1
@@ -25,10 +27,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.micro1.rule=PathPrefix(`/api/user`)"
       - "traefik.http.routers.micro1.entrypoints=web"
-      - "traefik.http.services.micro1.loadbalancer.server.port=4000"  # Internal container port
+      - "traefik.http.services.micro1.loadbalancer.server.port=4000"
     expose:
       - "4000"  # Expose internal port
     restart: always
+    networks:
+      - traefik
 
   micro2:
     image: micro2
@@ -38,10 +42,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.micro2.rule=PathPrefix(`/api/payment`)"
       - "traefik.http.routers.micro2.entrypoints=web"
-      - "traefik.http.services.micro2.loadbalancer.server.port=4001"  # Internal container port
+      - "traefik.http.services.micro2.loadbalancer.server.port=4001"
     expose:
       - "4001"  # Expose internal port
     restart: always
+    networks:
+      - traefik
 
   postgres:
     image: postgres:latest
@@ -54,8 +60,50 @@ services:
     ports:
       - "5433:5432"
     restart: always
+    networks:
+      - traefik
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - traefik
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana:/var/lib/grafana
+    networks:
+      - traefik
+
+  portainer:
+    image: portainer/portainer
+    expose:
+      - "9000"
+    networks:
+      - traefik
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Host:portainer.localhost"
+      - "traefik.port=9000"
+      - "traefik.backend=portainer"
+      - "traefik.frontend.entryPoints=http"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: always
 
 volumes:
   postgres_data:
+  prometheus:
+  grafana:
 
-
+networks:
+  traefik:
+    external: true
