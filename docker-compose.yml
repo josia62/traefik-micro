@@ -26,6 +26,10 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.micro1.rule=PathPrefix(`/api/user`)" # Added for path-based routing
       - "traefik.http.routers.micro1.entrypoints=web"
+    ports:
+      - "4000:4000"
+      - "8000:8000"
+     
     restart: always
 
   micro2:
@@ -37,6 +41,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.micro2.rule=PathPrefix(`/api/payment`)" # Added for path-based routing
       - "traefik.http.routers.micro2.entrypoints=web"
+    ports:
+      - "4001:4000"
+      - "8001:8000" 
     restart: always
 
   postgres:
