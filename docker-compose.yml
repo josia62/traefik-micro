@@ -1,35 +1,53 @@
-version: "3.9"
+version: "3.3"
 
 services:
+  traefik:
+    image: "traefik:v3.3"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
   micro1:
     image: micro1
-    ports:
-      - "4000:4000"
-      - "8000:8000"
+    container_name: micro1
     depends_on:
       - postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.micro1.rule=Host(`micro1.localhost`)"
+      - "traefik.http.routers.micro1.entrypoints=web"
     restart: always
 
   micro2:
     image: micro2
-    ports:
-      - "4001:4001"
-      - "8001:8001"
+    container_name: micro2
     depends_on:
       - postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.micro2.rule=Host(`micro2.localhost`)"
+      - "traefik.http.routers.micro2.entrypoints=web"
     restart: always
 
   postgres:
     image: postgres:latest
     container_name: postgres
-    ports:
-      - "5433:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: local
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
     restart: always
 
 volumes:
