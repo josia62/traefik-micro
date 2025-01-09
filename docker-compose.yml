@@ -42,8 +42,8 @@ services:
       - "traefik.http.routers.micro2.rule=PathPrefix(`/api/payment`)" # Added for path-based routing
       - "traefik.http.routers.micro2.entrypoints=web"
     ports:
-      - "4001:4000"
-      - "8001:8000" 
+      - "4001:4001"
+      - "8001:8001" 
     restart: always
 
   postgres:
