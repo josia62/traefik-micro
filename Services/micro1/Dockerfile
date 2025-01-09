@@ -15,7 +15,7 @@ COPY . .
 # Build the TypeScript files
 RUN npm run build
 
-# Expose port 8080
+# Expose port 4000 REST and 8000 GRPC
 EXPOSE 4000 8000
 
 # Start the app
