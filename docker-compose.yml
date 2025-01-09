@@ -8,6 +8,16 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+    restart: always
+
+  micro2:
+    image: micro2
+    ports:
+      - "4001:4001"
+      - "8001:8001"
+    depends_on:
+      - postgres
+    restart: always
 
   postgres:
     image: postgres:latest
@@ -20,7 +30,9 @@ services:
       POSTGRES_DB: local
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
 
 volumes:
   postgres_data:
+
 
